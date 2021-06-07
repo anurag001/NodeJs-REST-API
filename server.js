@@ -1,43 +1,51 @@
 const express = require('express');
 const logger = require('morgan');
-const users = require('./routes/users');
 const bodyParser = require('body-parser');
 const mongoose = require('./config/database'); 
-var jwt = require('jsonwebtoken');
 const app = express();
+const users = require('./routes/users');
+const home = require('./routes/home');
+
+
+//default path set for ejs templates to view
+app.set("view engine", "ejs");
 
 app.set('secretKey', 'nodeRestApi');
 
 // connection to mongodb
 mongoose.connection.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
+//logger middleware
 app.use(logger('dev'));
+
 // parse application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: false }));
 
 // parse application/json
 app.use(express.json());
 
-// // Add headers
-// app.use(function (req, res, next) {
+// Add headers
+app.use(function (req, res, next) {
 
-//     // Website you wish to allow to connect
-//     res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8000/');
+    // Website you wish to allow to connect, which domain can request you
+    //The Access-Control-Allow-Origin response header indicates whether the response can be shared with requesting code from the given origin or not.
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8000/');
 
-//     // Request methods you wish to allow
-//     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    // Request methods you wish to allow
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
 
-//     // Request headers you wish to allow
-//     res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+    // Request headers you wish to allow
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
 
-//     // Set to true if you need the website to include cookies in the requests sent
-//     // to the API (e.g. in case you use sessions)
-//     res.setHeader('Access-Control-Allow-Credentials', true);
+    // Set to true if you need the website to include cookies in the requests sent
+    // to the API (e.g. in case you use sessions)
+    res.setHeader('Access-Control-Allow-Credentials', true);
 
-//     // Pass to next layer of middleware
-//     next();
-// });
+    // Pass to next layer of middleware
+    next();
+});
 
+app.use('/',home);
 app.use('/users', users);
 
 

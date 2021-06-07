@@ -6,7 +6,7 @@
   "scripts": {
     "start": "npm install",
     "run": "node server",
-    "test": "cross-env PORT=8001 ./node_modules/.bin/mocha test --exit"
+    "test": ""
   },
   "keywords": [
     "Node",
@@ -24,9 +24,6 @@
     "jsonwebtoken": "8.2.1",
     "mongoose": "5.0.13",
     "morgan": "1.9.0",
-    "mocha": "^7.1.0",
-    "mocha-junit-reporter": "^1.23.3",
-    "mocha-multi-reporters": "^1.1.7"
   },
   "devDependencies": {
     "eslint": "4.19.1"
